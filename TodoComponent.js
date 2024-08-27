@@ -17,7 +17,6 @@ export const TodoComponent = () => {
         childrenComponents: [],
     };
 
-    TodoComponent.render({ element, localState });
     return {
         element,
         localState,
@@ -25,7 +24,7 @@ export const TodoComponent = () => {
     };
 };
 
-TodoComponent.render = ({ element, localState }) => {
+TodoComponent.render = ({ element, localState, liba }) => {
     console.log("TODO render");
 
     element.innerHTML = "";
@@ -46,7 +45,7 @@ TodoComponent.render = ({ element, localState }) => {
             }
             element.append(alreadyExistedComponent.element);
         } else {
-            const taskInstance = TaskComponent({ task: localState.tasks[i], setIsDone: localState.setIsDone });
+            const taskInstance = liba.create(TaskComponent, { task: localState.tasks[i], setIsDone: localState.setIsDone });
             element.append(taskInstance.element);
             localState.childrenComponents.push(taskInstance);
         }

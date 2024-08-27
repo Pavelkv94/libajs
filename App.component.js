@@ -2,16 +2,14 @@ import { CounterComponent } from "./CounterComponent.js";
 import { TodoComponent } from "./TodoComponent.js";
 
 export const AppComponent = () => {
-  console.log("APP mount");
-  
+    console.log("APP mount");
+
     const element = document.createElement("div");
 
     const localState = {
         page: "todo",
         childrenComponents: [],
     };
-
-    AppComponent.render({ element, localState });
 
     return {
         element,
@@ -22,8 +20,8 @@ export const AppComponent = () => {
     };
 };
 
-AppComponent.render = ({ element, localState }) => {
-  console.log("APP render");
+AppComponent.render = ({ element, localState, liba }) => {
+    console.log("APP render");
 
     element.innerHTML = "";
 
@@ -31,7 +29,7 @@ AppComponent.render = ({ element, localState }) => {
         component.cleanup?.();
     });
     localState.childrenComponents = [];
-    
+
     const pageSelector = document.createElement("select");
     const counterPageOption = document.createElement("option");
     counterPageOption.append("counter page");
@@ -49,19 +47,19 @@ AppComponent.render = ({ element, localState }) => {
 
     pageSelector.addEventListener("change", () => {
         localState.page = pageSelector.value;
-        AppComponent.render({ element, localState });
+        AppComponent.render({ element, localState, liba });
     });
 
     switch (localState.page) {
         case "counter": {
-            const counterInstance = CounterComponent();
+            const counterInstance = liba.create(CounterComponent);
             localState.childrenComponents.push(counterInstance);
             element.append("Hello");
             element.append(counterInstance.element);
             break;
         }
         case "todo": {
-            const todoInstance = TodoComponent();
+            const todoInstance = liba.create(TodoComponent);
             localState.childrenComponents.push(todoInstance);
             element.append("Todo");
             element.append(todoInstance.element);

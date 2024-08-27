@@ -14,6 +14,7 @@ export const TodoComponent = () => {
             localState.tasks = localState.tasks.map((el) => (el.id !== taskId ? el : { ...el, isDone: isDone }));
             TodoComponent.render({ element, localState });
         },
+        childrenComponents: [],
     };
 
     TodoComponent.render({ element, localState });
@@ -29,10 +30,25 @@ TodoComponent.render = ({ element, localState }) => {
 
     element.innerHTML = "";
 
+    localState.childrenComponents.forEach((component) => {
+        component.cleanup?.();
+    });
+    // localState.childrenComponents = [];
+
     element.append("todo");
 
-    for (let task of localState.tasks) {
-        const taskInstance = TaskComponent({ task, setIsDone: localState.setIsDone });
-        element.append(taskInstance.element);
+    for (let i = 0; i < localState.tasks.length; i++) {
+        const alreadyExistedComponent = localState.childrenComponents[i];
+        if (alreadyExistedComponent) {
+            if (localState.tasks[i] !== alreadyExistedComponent.props.task) {
+                alreadyExistedComponent.props.task = localState.tasks[i];
+                TaskComponent.render({ element: alreadyExistedComponent.element, props: { task: localState.tasks[i], setIsDone: localState.setIsDone } });
+            }
+            element.append(alreadyExistedComponent.element);
+        } else {
+            const taskInstance = TaskComponent({ task: localState.tasks[i], setIsDone: localState.setIsDone });
+            element.append(taskInstance.element);
+            localState.childrenComponents.push(taskInstance);
+        }
     }
 };

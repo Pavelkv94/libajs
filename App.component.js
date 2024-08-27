@@ -23,8 +23,6 @@ export const AppComponent = () => {
 AppComponent.render = ({ element, localState, liba }) => {
     console.log("APP render");
 
-    element.innerHTML = "";
-
     localState.childrenComponents.forEach((component) => {
         component.cleanup?.();
     });
@@ -47,19 +45,19 @@ AppComponent.render = ({ element, localState, liba }) => {
 
     pageSelector.addEventListener("change", () => {
         localState.page = pageSelector.value;
-        AppComponent.render({ element, localState, liba });
+        liba.refresh(); //ререндер
     });
 
     switch (localState.page) {
         case "counter": {
-            const counterInstance = liba.create(CounterComponent);
+            const counterInstance = liba.create(CounterComponent); //создание и первый рендер
             localState.childrenComponents.push(counterInstance);
             element.append("Hello");
             element.append(counterInstance.element);
             break;
         }
         case "todo": {
-            const todoInstance = liba.create(TodoComponent);
+            const todoInstance = liba.create(TodoComponent); //создание и первый рендер
             localState.childrenComponents.push(todoInstance);
             element.append("Todo");
             element.append(todoInstance.element);

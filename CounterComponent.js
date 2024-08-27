@@ -1,5 +1,5 @@
-export const CounterComponent = () => {
-  console.log("COUNTER mount");
+export const CounterComponent = (props, { liba }) => {
+    console.log("COUNTER mount");
 
     const element = document.createElement("div");
 
@@ -9,10 +9,9 @@ export const CounterComponent = () => {
 
     const interval = setInterval(() => {
         localState.value++;
-        CounterComponent.render({ element, localState });
-    }, 1000);
 
-    CounterComponent.render({ element, localState });
+        liba.refresh(); //ререндер
+    }, 1000);
 
     return {
         element,
@@ -24,9 +23,7 @@ export const CounterComponent = () => {
 };
 
 CounterComponent.render = ({ element, localState }) => {
-  console.log("COUNTER render");
-
-    element.innerHTML = "";
+    console.log("COUNTER render");
 
     element.append(localState.value);
 };

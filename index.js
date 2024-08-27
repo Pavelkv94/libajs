@@ -3,6 +3,6 @@ import { Liba } from "./LibaJS.js";
 
 const rootElement = document.getElementById("root");
 
-const appInstance = Liba.create(AppComponent);
+const appInstance = Liba.create(AppComponent); //создание и первый рендер
 
 rootElement.append(appInstance.element);

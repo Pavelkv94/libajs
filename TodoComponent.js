@@ -9,6 +9,8 @@ export const TodoComponent = (props, { liba }) => {
         tasks: [
             { id: 1, title: "JS", isDone: false },
             { id: 2, title: "React", isDone: true },
+            { id: 3, title: "HTML", isDone: false },
+
         ],
         setIsDone(taskId, isDone) {
             localState.tasks = localState.tasks.map((el) => (el.id !== taskId ? el : { ...el, isDone: isDone }));

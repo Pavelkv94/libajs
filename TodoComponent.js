@@ -14,7 +14,6 @@ export const TodoComponent = (props, { liba }) => {
             localState.tasks = localState.tasks.map((el) => (el.id !== taskId ? el : { ...el, isDone: isDone }));
             liba.refresh();
         },
-        childrenComponents: [],
     };
 
     return {
@@ -27,15 +26,10 @@ export const TodoComponent = (props, { liba }) => {
 TodoComponent.render = ({ element, localState, liba }) => {
     console.log("TODO render");
 
-    localState.childrenComponents.forEach((component) => {
-        component.cleanup?.();
-    });
-    // localState.childrenComponents = [];
-
     element.append("todo");
 
     for (let i = 0; i < localState.tasks.length; i++) {
-        const alreadyExistedComponent = localState.childrenComponents[i];
+        // const alreadyExistedComponent = localState.childrenComponents[i];
         // if (alreadyExistedComponent) {
         //     if (localState.tasks[i] !== alreadyExistedComponent.props.task) {
         //         alreadyExistedComponent.props.task = localState.tasks[i];
@@ -45,7 +39,6 @@ TodoComponent.render = ({ element, localState, liba }) => {
         // } else {
         const taskInstance = liba.create(TaskComponent, { task: localState.tasks[i], setIsDone: localState.setIsDone });
         element.append(taskInstance.element);
-        localState.childrenComponents.push(taskInstance);
         // }
     }
 };

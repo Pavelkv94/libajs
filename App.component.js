@@ -8,7 +8,6 @@ export const AppComponent = () => {
 
     const localState = {
         page: "todo",
-        childrenComponents: [],
     };
 
     return {
@@ -22,11 +21,6 @@ export const AppComponent = () => {
 
 AppComponent.render = ({ element, localState, liba }) => {
     console.log("APP render");
-
-    localState.childrenComponents.forEach((component) => {
-        component.cleanup?.();
-    });
-    localState.childrenComponents = [];
 
     const pageSelector = document.createElement("select");
     const counterPageOption = document.createElement("option");
@@ -51,14 +45,12 @@ AppComponent.render = ({ element, localState, liba }) => {
     switch (localState.page) {
         case "counter": {
             const counterInstance = liba.create(CounterComponent); //создание и первый рендер
-            localState.childrenComponents.push(counterInstance);
             element.append("Hello");
             element.append(counterInstance.element);
             break;
         }
         case "todo": {
             const todoInstance = liba.create(TodoComponent); //создание и первый рендер
-            localState.childrenComponents.push(todoInstance);
             element.append("Todo");
             element.append(todoInstance.element);
             break;
